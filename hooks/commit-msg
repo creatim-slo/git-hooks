@@ -1,0 +1,11 @@
+#!/bin/sh
+# commit-msg: Prevent commits without a task ID in the message
+
+commit_msg_file=$1
+commit_message=$(cat "$commit_msg_file")
+
+# check if the commit message contains a task ID (e.g., #12345 my commit message)
+echo "$commit_message" | grep -qE "#[0-9]+" || {
+    echo "ERROR: Commit message must start with a task ID (e.g., #12345 my commit message)."
+    exit 1
+}
