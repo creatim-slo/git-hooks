@@ -1,11 +1,17 @@
 #!/bin/sh
-# commit-msg: Prevent commits without a task ID in the message
+# commit-msg: Prevent commits without a task ID in the message, except for specific auto-generated messages
 
 commit_msg_file=$1
 commit_message=$(cat "$commit_msg_file")
 
-# check if the commit message contains a task ID (e.g., #12345 my commit message)
-echo "$commit_message" | grep -qE "#[0-9]+" || {
+# Allow commit messages that start with "Merge branch", "Rebased", "Cherry-pick", "Squash", or contain a task ID
+if echo "$commit_message" | grep -qE "^Merge branch" || \
+   echo "$commit_message" | grep -qE "^Rebased" || \
+   echo "$commit_message" | grep -qE "^Cherry-pick" || \
+   echo "$commit_message" | grep -qE "^Squash commit" || \
+   echo "$commit_message" | grep -qE "#[0-9]+"; then
+    exit 0  # Allow commit
+else
     echo "ERROR: Commit message must start with a task ID (e.g., #12345 my commit message)."
     exit 1
-}
+fi
