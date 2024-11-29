@@ -5,11 +5,10 @@ commit_msg_file=$1
 commit_message=$(cat "$commit_msg_file")
 
 # Allow commit messages that start with "Merge branch", "Rebased", "Cherry-pick", "Squash", or contain a task ID
-if echo "$commit_message" | grep -qE "^Merge branch" || \
-   echo "$commit_message" | grep -qE "^Merge remote" || \
+if echo "$commit_message" | grep -qE "^Merge" || \
    echo "$commit_message" | grep -qE "^Rebased" || \
    echo "$commit_message" | grep -qE "^Cherry-pick" || \
-   echo "$commit_message" | grep -qE "^Squash commit" || \
+   echo "$commit_message" | grep -qE "^Squash" || \
    echo "$commit_message" | grep -qE "#[0-9]+"; then
     exit 0  # Allow commit
 else
