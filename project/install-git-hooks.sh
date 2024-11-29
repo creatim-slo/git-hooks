@@ -35,6 +35,7 @@ EXIT_CODE=$?
 # check if the script executed successfully
 if [ $EXIT_CODE -ne 0 ]; then
     echo "${RED}Error: The script failed to execute successfully.${RESET}"
+    echo "$OUTPUT"
     rm "$TEMP_SCRIPT"
     exit 1
 fi
